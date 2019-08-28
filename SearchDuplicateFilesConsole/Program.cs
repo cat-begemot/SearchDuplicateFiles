@@ -114,14 +114,26 @@ namespace SearchDuplicateFilesConsole
 			secondDirectoryFiles.OrderBy(file => file.Name).ToList().ForEach(file => Console.WriteLine(file.FullName));
 			Console.WriteLine("--------");
 			commonFiles.OrderBy(file => file.Name).ToList().ForEach(file => Console.WriteLine(file.FullName));
+			Console.WriteLine();
 
 			// Move file to Duplicates folders
 			string duplicatesPath = Directory.CreateDirectory(Path.Combine(Directory.GetParent(folderPathes[0]).FullName, "Duplicates")).FullName;
 
 			commonFiles.ForEach(file =>
 			{
-				File.Copy(file.FullName, Path.Combine(duplicatesPath, file.Name));
-				File.Delete(file.FullName);
+				try
+				{
+					File.Copy(file.FullName, Path.Combine(duplicatesPath, file.Name));
+				}
+				catch(Exception ex)
+				{
+					WriteInColor($"{ex.Message}\n", ConsoleColor.Red);
+				}
+				finally
+				{
+					File.Delete(file.FullName);
+				}
+
 			});
 
 			switch (commonFiles.Count)
