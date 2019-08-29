@@ -1,2 +1,2 @@
-C:\Users\oholenko\source\repos\SearchDuplicateFiles\TestData\Folder1
-C:\Users\oholenko\source\repos\SearchDuplicateFiles\TestData\Folder2
+C:\Users\cat-b\source\repos\SearchDuplicateFiles\TestData\Folder1
+C:\Users\cat-b\source\repos\SearchDuplicateFiles\TestData\Folder2
