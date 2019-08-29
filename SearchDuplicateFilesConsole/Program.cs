@@ -34,6 +34,8 @@ namespace SearchDuplicateFilesConsole
 			ConsoleExtensions.WriteInColor("\nDo move duplicate files to Duplicate folder? (yes/no): ", ConsoleColor.Yellow);
 			string moveFileAnswer = Console.ReadLine().Trim().ToLower();
 
+			if (moveFileAnswer != "yes")
+				return;
 
 			//			syncFiles.GetCheckedFolderFiles().ForEach(file => Console.WriteLine(file.FullName));
 			//			Console.WriteLine("--------");
@@ -45,37 +47,38 @@ namespace SearchDuplicateFilesConsole
 			//			Console.WriteLine();
 
 			// Move file to Duplicates folders
-			//			string duplicatesPath = Directory.CreateDirectory(Path.Combine(Directory.GetParent(syncFiles.GetCheckedFolderFullName()).FullName, "Duplicates")).FullName;
-			//
-			//			syncFiles.GetDuplicateFiles().ForEach(file =>
-			//			{
-			//				try
-			//				{
-			//					File.Copy(file.FullName, Path.Combine(duplicatesPath, file.Name));
-			//				}
-			//				catch(Exception ex)
-			//				{
-			//					ConsoleExtensions.WriteInColor($"{ex.Message}\n", ConsoleColor.Red);
-			//				}
-			//				finally
-			//				{
-			//					File.Delete(file.FullName);
-			//				}
-			//
-			//			});
-			//
-			//			switch (syncFiles.GetDuplicateFiles().Count)
-			//			{
-			//				case 0:
-			//					ConsoleExtensions.WriteInColor("\nNo duplicate files.\n", ConsoleColor.Blue);
-			//					break;
-			//				case 1:
-			//					ConsoleExtensions.WriteInColor($"\n{syncFiles.GetDuplicateFiles().Count()} file was moved.\n", ConsoleColor.Blue);
-			//					break;
-			//				default:
-			//					ConsoleExtensions.WriteInColor($"\n{syncFiles.GetDuplicateFiles().Count()} files were moved.\n", ConsoleColor.Blue);
-			//					break;
-			//			}
+
+			string duplicatesPath = Directory.CreateDirectory(Path.Combine(Directory.GetParent(syncFiles.GetCheckedFolderFullName()).FullName, "Duplicates")).FullName;
+
+			syncFiles.GetDuplicateFiles().ForEach(file =>
+			{
+				try
+				{
+					File.Copy(file.FullName, Path.Combine(duplicatesPath, file.Name));
+				}
+				catch(Exception ex)
+				{
+					ConsoleExtensions.WriteInColor($"{ex.Message}\n", ConsoleColor.Red);
+				}
+				finally
+				{
+					File.Delete(file.FullName);
+				}
+
+			});
+
+			switch (syncFiles.GetDuplicateFiles().Count)
+			{
+				case 0:
+					ConsoleExtensions.WriteInColor("\nNo duplicate files.\n", ConsoleColor.Red);
+					break;
+				case 1:
+					ConsoleExtensions.WriteInColor($"\n{syncFiles.GetDuplicateFiles().Count()} file was moved.\n", ConsoleColor.Blue);
+					break;
+				default:
+					ConsoleExtensions.WriteInColor($"\n{syncFiles.GetDuplicateFiles().Count()} files were moved.\n", ConsoleColor.Blue);
+					break;
+			}
 		}
     }
 }
